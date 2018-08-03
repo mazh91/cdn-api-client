@@ -6,7 +6,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Base64;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.CharsetUtils;
 import org.json.*;
 
 class CDNsunCdnApiClient
@@ -55,11 +61,15 @@ class CDNsunCdnApiClient
 		method = method.toUpperCase();
 		switch (method){
 			// TODO: case "POST", ...
+
 			case "GET":
 				JSONObject data = null;
 				if(options.has("data")) {
                     data = options.getJSONObject("data");
-                    options.put("url", urlString + "?" + URLEncoder.encode(data.toString(), "UTF-8"));
+                    List<NameValuePair> nvpData = mapToNvpList(data.toMap());
+//                    System.out.println(URLEncodedUtils.format(nvpData, '&', StandardCharsets.UTF_8));
+                    urlString = urlString + "?" + URLEncodedUtils.format(nvpData, '&', StandardCharsets.UTF_8);
+                    //options.put("url", newUrl);
                 }
 				break;
 			default:
@@ -106,6 +116,13 @@ class CDNsunCdnApiClient
 
 		return responseObject;
 	}
+
+    private List<NameValuePair> mapToNvpList(Map<String,Object> pairs) {
+        List<NameValuePair> nvpList = new ArrayList<>(pairs.size());
+        for (Map.Entry<String, Object> entry : pairs.entrySet())
+            nvpList.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+        return  nvpList;
+    }
 
 }
 

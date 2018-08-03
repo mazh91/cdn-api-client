@@ -2,9 +2,6 @@ package com.dummy.cdnapiclient;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Test {
     public static void main(String[] args) {
 
@@ -15,24 +12,24 @@ public class Test {
         String password   = "6BfDyH8F2ZNW";
         int id = 91;
 
-        JSONObject options = new JSONObject();
+        JSONObject options;
+
+        options = new JSONObject();
         options.put("username", username);
         options.put("password", password);
 
         client = new CDNsunCdnApiClient(options);
 
-        options.put("url", "cdns");
+        // TEST 1
+//        options.put("url", "cdns");
 
-        /*
-        //options = new HashMap<>();
-        JSONObject opt = new JSONObject();
-        opt.put("url", "cdns" + id + "/reports");
-        Map<String, String> dataArrayMap = new HashMap<>();
-        dataArrayMap.put("type", "GB");
-        dataArrayMap.put("period", "4h");
-        opt.put("data", dataArrayMap);
-        */
-
+        // TEST 2
+        options = new JSONObject();
+        options.put("url", "cdns/" + id + "/reports");
+        JSONObject dataArray = new JSONObject();
+        dataArray.put("type", "GB");
+        dataArray.put("period", "4h");
+        options.put("data", dataArray);
 
         try {
             response = client.get(options);
