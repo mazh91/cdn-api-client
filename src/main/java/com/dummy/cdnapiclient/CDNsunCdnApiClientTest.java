@@ -2,7 +2,7 @@ package com.dummy.cdnapiclient;
 
 import org.json.JSONObject;
 
-public class Test {
+public class CDNsunCdnApiClientTest {
     public static void main(String[] args) {
 
         CDNsunCdnApiClient client;
