@@ -5,14 +5,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.CharsetUtils;
 import org.json.*;
 
 class CDNsunCdnApiClient
@@ -46,8 +43,7 @@ class CDNsunCdnApiClient
 	// TODO: POST, PUT, & DELETE
 
 	// TODO: complete request
-	JSONObject request(JSONObject options) throws  Exception{
-	//String request(Map<String, String> options) throws Exception{
+	private JSONObject request(JSONObject options) throws  Exception{
 		String urlString = options.getString("url");
 		String method = options.getString("method");
 
@@ -67,9 +63,7 @@ class CDNsunCdnApiClient
 				if(options.has("data")) {
                     data = options.getJSONObject("data");
                     List<NameValuePair> nvpData = mapToNvpList(data.toMap());
-//                    System.out.println(URLEncodedUtils.format(nvpData, '&', StandardCharsets.UTF_8));
                     urlString = urlString + "?" + URLEncodedUtils.format(nvpData, '&', StandardCharsets.UTF_8);
-                    //options.put("url", newUrl);
                 }
 				break;
 			default:
