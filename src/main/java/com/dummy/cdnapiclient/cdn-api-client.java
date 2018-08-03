@@ -6,9 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Map;
 import org.json.*;
 
 class CDNsunCdnApiClient
@@ -17,9 +15,9 @@ class CDNsunCdnApiClient
     private String password;
     private static final int REQ_TIMEOUT_MS = 60_000;
    
-	public CDNsunCdnApiClient(Map<String, String> options){
-		String username = options.get("username");
-		String password = options.get("password");
+	public CDNsunCdnApiClient(JSONObject options){
+		String username = options.getString("username");
+		String password = options.getString("password");
 
 		if(options == null)
 			throw new IllegalArgumentException("options is null");
@@ -32,7 +30,7 @@ class CDNsunCdnApiClient
 		this.password = password;
 	}
 
-	public JSONObject get(Map<String, String> options) throws Exception{
+	public JSONObject get(JSONObject options) throws Exception{
 		if(options == null)
 			throw new IllegalArgumentException("options is null");
 		options.put("method", "GET");			
@@ -42,10 +40,10 @@ class CDNsunCdnApiClient
 	// TODO: POST, PUT, & DELETE
 
 	// TODO: complete request
-	JSONObject request(Map<String, String> options) throws  Exception{
+	JSONObject request(JSONObject options) throws  Exception{
 	//String request(Map<String, String> options) throws Exception{
-		String urlString = options.get("url");
-		String method = options.get("method");
+		String urlString = options.getString("url");
+		String method = options.getString("method");
 
 		if(options == null)
 			throw new IllegalArgumentException("options is null");
@@ -58,9 +56,11 @@ class CDNsunCdnApiClient
 		switch (method){
 			// TODO: case "POST", ...
 			case "GET":
-				String data = options.get("data");
-				if(data != null)
-					options.put("url", urlString + "?" + URLEncoder.encode(data, "UTF-8"));
+				JSONObject data = null;
+				if(options.has("data")) {
+                    data = options.getJSONObject("data");
+                    options.put("url", urlString + "?" + URLEncoder.encode(data.toString(), "UTF-8"));
+                }
 				break;
 			default:
 				throw new IllegalArgumentException("Unsupported method: " + method);
@@ -73,7 +73,7 @@ class CDNsunCdnApiClient
 		else if (urlString.substring(0, base_url.length()).equals(base_url) == false)
             options.put("url", base_url + urlString);
 
-        urlString = options.get("url");
+        urlString = options.getString("url");
         URL url = new URL(urlString);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

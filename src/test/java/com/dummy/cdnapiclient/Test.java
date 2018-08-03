@@ -15,13 +15,12 @@ public class Test {
         String password   = "6BfDyH8F2ZNW";
         int id = 91;
 
-        Map<String, String> options = new HashMap<>();
+        JSONObject options = new JSONObject();
         options.put("username", username);
         options.put("password", password);
 
         client = new CDNsunCdnApiClient(options);
 
-        options = new HashMap<>();
         options.put("url", "cdns");
 
         /*
