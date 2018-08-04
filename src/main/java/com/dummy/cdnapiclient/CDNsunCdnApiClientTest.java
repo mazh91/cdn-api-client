@@ -5,6 +5,8 @@ import org.json.JSONObject;
 public class CDNsunCdnApiClientTest {
     public static void main(String[] args) {
 
+        final int JSON_INDENT = 2;
+
         CDNsunCdnApiClient client;
         JSONObject response = null;
 
@@ -39,7 +41,7 @@ public class CDNsunCdnApiClientTest {
         }
 
         if(response != null)
-            System.out.println(response.toString());
+            System.out.println(response.toString(4));
 
     }
 }
