@@ -40,9 +40,9 @@ class CDNsunCdnApiClient
 		return request(options);
 	}
 
-	// TODO: POST, PUT, & DELETE
-
-	// TODO: complete request
+	/*
+	Process client request
+	 */
 	private JSONObject request(JSONObject options) throws  Exception{
 		String urlString = options.getString("url");
 		String method = options.getString("method");
@@ -111,6 +111,9 @@ class CDNsunCdnApiClient
 		return responseObject;
 	}
 
+	/*
+	Helper function for converting a map to a name-value pair
+	 */
     private List<NameValuePair> mapToNvpList(Map<String,Object> pairs) {
         List<NameValuePair> nvpList = new ArrayList<>(pairs.size());
         for (Map.Entry<String, Object> entry : pairs.entrySet())
